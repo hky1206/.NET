@@ -1,0 +1,15 @@
+﻿@model IEnumerable<WebApplication2.Models.DanhMucSanPham>
+
+<div class="well well-small">
+    <ul class="nav nav-list">
+        @foreach (var danhMuc in Model)
+        {
+            <li>
+                <a href="@Url.Action("ProductsByCategory", "Home1", new { id = danhMuc.IdDanhmuc })">
+                    <span class="icon-chevron-right"></span>@danhMuc.Tendanhmuc
+                </a>
+            </li>
+        }
+        <li style="border:0"> &nbsp;</li>
+    </ul>
+</div>

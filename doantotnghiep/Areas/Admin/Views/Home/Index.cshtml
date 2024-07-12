@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<canvas id="bieudo"></canvas>
+<script src="/js/chartjs.js"></script>
+<script src="/js/axios.min.js"></script>
+<script>
+    let configChart = function (type, labels, datasets, title) {
+        return {
+            type: type,
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: title
+                    }
+                }
+            }
+        }
+    }
+    let getData =  function () {
+        let dulieu = []
+        axios.get('/Admin/TonKhoes/getTonKho')
+            .then((res) => {
+               dulieu = res.data
+            })
+            .catch((err) => console.log(err))
+            .then(() => {
+                let chart_hoatdong = {
+                    "labels": dulieu.map((e) => e.maSp),
+                    "datasets": [{
+                        "label": "Số lượng",
+                        "data": dulieu.map((e) => e.soLuongTon),
+                        "backgroundColor": [
+                            "#21ba45", "#48faa", "#3c145f", "#68e7c7", "#324234"
+                        ]
+                    }]
+                }
+                let cfgBS = configChart('doughnut', chart_hoatdong.labels, chart_hoatdong.datasets, 'THỐNG KÊ PHỤ TÙNG');
+                new Chart(document.getElementById("bieudo"), cfgBS);
+            })
+    }
+   
+    getData();
+    
+</script>

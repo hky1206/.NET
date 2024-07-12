@@ -1,0 +1,118 @@
+﻿@using WebApplication2.Models.ViewModel
+@model CartItemViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<div class="row">
+	<div class="span12">
+		<ul class="breadcrumb">
+			<li><a href="index.html">Home</a> <span class="divider">/</span></li>
+			<li class="active">Giỏ hàng</li>
+		</ul>
+		<div class="well well-small">
+			<h1>Giỏ hàng<small class="pull-right"> </small></h1>
+			<hr class="soften" />
+
+			<table class="table table-bordered table-condensed">
+				<thead>
+					<tr>
+						<th>Hình ảnh</th>
+						<th>Thông tin </th>
+						<th>	Ref. </th>
+						<th>Avail.</th>
+						<th>Giá</th>
+						<th>Số lượng</th>
+						<th>Tổng giá</th>
+					</tr>
+				</thead>
+				<tbody>
+					@if (Model.CartItems.Count > 0)
+					{
+						@foreach (var item in Model.CartItems)
+						{
+							<tr>
+								<td><img width="100" src="~/images/@item.Image" alt=""></td>
+								<td>@item.ProductName<br>Carate : 22<br>Model : n/a</td>
+								<td> - </td>
+								<td><span class="shopBtn"><span class="icon-ok"></span></span> </td>
+								<td>@item.Price</td>
+								<td class="cart_quantity">
+									<input class="span1" style="max-width:34px" placeholder="1" id="appendedInputButtons" size="16" type="text" value="@item.Quantity">
+									<div class="input-append">
+										<form asp-controller="Cart" asp-action="Decrease" asp-route-id="@item.ProductId" method="post">
+											<button class="btn btn-danger btn-sm" type="submit">-</button>
+										</form>
+										<form asp-controller="Cart" asp-action="Increase" asp-route-id="@item.ProductId" method="post">
+											<button class="btn btn-success btn-sm" type="submit">+</button>
+										</form>
+										<form asp-controller="Cart" asp-action="Remove" asp-route-id="@item.ProductId" method="post">
+											<button class="btn btn-mini btn-danger" type="submit">
+												<span class="icon-remove"></span>
+											</button>
+										</form>
+									</div>
+								</td>
+								<td class="cart-total">
+									<p class="cart_total_price">@Model.CartItems.Where(x => x.ProductId == item.ProductId).Sum(x => x.Quantity * x.Price)</p>
+								</td>
+							</tr>
+						}
+						<tr>
+							<td colspan="6" class="alignR">Total products:</td>
+							<td colspan="6">@Model.GrandTotal.ToString()</td>
+							<td><a class="btn btn-danger btn-sm" asp-controller="Cart" asp-action="Clear">Xoá giỏ hàng</a></td>
+						</tr>
+						<tr>
+							<td colspan="6"></td>
+							<td colspan="6">
+								<a class="btn btn-primary btn-sm" asp-controller="Checkout" asp-action="CheckoutCash">Thanh toán tiền mặt</a>
+								<a class="btn btn-primary btn-sm" asp-controller="Checkout" asp-action="CheckoutBanking">Thanh toán PAYPAL</a>
+							</td>
+						</tr>
+					}
+					else
+					{
+						<tr>
+							<td colspan="5"><h4>giỏ hàng trống</h4></td>
+						</tr>
+					}
+
+				</tbody>
+			</table><br />
+			@* <table class="table table-bordered">
+				<tbody>
+					<tr><td>ESTIMATE YOUR SHIPPING & TAXES</td></tr>
+					<tr>
+						<td>
+							<form class="form-horizontal">
+								<div class="control-group">
+									<label class="span2 control-label" for="inputEmail">Country</label>
+									<div class="controls">
+										<input type="text" placeholder="Country">
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="span2 control-label" for="inputPassword">Post Code/ Zipcode</label>
+									<div class="controls">
+										<input type="password" placeholder="Password">
+									</div>
+								</div>
+								<div class="control-group">
+									<div class="controls">
+										<button type="submit" class="shopBtn">Click to check the price</button>
+									</div>
+								</div>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table> *@
+			<a href="products.html" class="shopBtn btn-large"><span class="icon-arrow-left"></span> Continue Shopping </a>
+			<a href="login.html" class="shopBtn btn-large pull-right">Next <span class="icon-arrow-right"></span></a>
+
+		</div>
+	</div>
+</div>

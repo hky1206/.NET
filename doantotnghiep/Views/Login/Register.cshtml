@@ -1,0 +1,67 @@
+﻿@model WebApplication2.ViewModels.UserViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h3> Đăng ký</h3>
+<hr class="soft" />
+<div class="well">
+    <form asp-action="Register" asp-controller="Account" method="post" class="form-horizontal">
+        <h3>Thông tin cá nhân</h3>
+        <div class="control-group">
+            <label class="control-label" for="inputFullName">Họ và tên<sup>*</sup></label>
+            <div class="controls">
+                <input asp-for="FullName" class="span3" type="text" placeholder="Họ và tên">
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputEmail">Email<sup>*</sup></label>
+            <div class="controls">
+                <input asp-for="Email" class="span3" type="email" placeholder="Email">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputAddress">Địa chỉ<sup>*</sup></label>
+            <div class="controls">
+                <input asp-for="Address" class="span3" type="text" placeholder="Địa chỉ">
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Số điện thoại<sup>*</sup></label>
+            <div class="controls">
+                <input asp-for="PhoneNumber" class="span3" type="text" placeholder="Số điện thoại">
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Tên đăng nhập<sup>*</sup></label>
+            <div class="controls">
+                <input asp-for="Username" class="span3" type="text" placeholder="Tên đăng nhập">
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Mật khẩu<sup>*</sup></label>
+            <div class="controls">
+                <input asp-for="Password" class="span3" type="password" placeholder="Mật khẩu">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <input asp-controller="Account" type="submit" name="submitAccount" value="Register" class="exclusive shopBtn">
+            </div>
+
+        </div>
+    </form>
+
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

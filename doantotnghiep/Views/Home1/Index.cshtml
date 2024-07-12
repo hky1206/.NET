@@ -1,0 +1,37 @@
+﻿
+@model IEnumerable<WebApplication2.Models.SanPham>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<div class="span9">
+    <div class="well well-small">
+        <h3>@ViewBag.CategoryName</h3>
+        <div class="row-fluid">
+            <ul class="thumbnails">
+                @foreach (var sanPham in Model)
+                {
+                    <li class="span4">
+                        <div class="thumbnail">
+                            <a href="product_details.html" class="overlay"></a>
+                            <a class="zoomTool" href="product_details.html" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
+                            <a href="product_details.html"><img src="@Url.Content("~/images/" + sanPham.Imageurl)" alt=""></a>
+                            <div class="caption cntr">
+                                <p>@sanPham.TenSp</p>
+                                <p><strong>@sanPham.Gia$</strong></p>             
+                                <h4><a class="btn btn-default add-to-cart" asp-action="Add" asp-controller="Cart" asp-route-Id="@sanPham.MaSp" title="add to cart"> Add to cart </a></h4>
+                                <div class="actionList">
+                                    <a class="pull-left" href="#">Add to Wish List </a>
+                                    <a class="pull-left" href="#"> Add to Compare </a>
+                                </div>
+                                <br class="clr">
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

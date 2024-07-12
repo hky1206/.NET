@@ -1,0 +1,56 @@
+﻿@model DateTimeRangeViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<form method="get" action="/thongkenhap/ThongKeSanPhamNhap" id="dateForm">
+    <label for="ngayBatDau">Từ ngày:</label>
+    <input type="date" id="ngayBatDau" name="ngayBatDau" required>
+
+    <label for="ngayKetThuc">Đến ngày:</label>
+    <input type="date" id="ngayKetThuc" name="ngayKetThuc" required>
+
+    <button type="submit">Thống Kê</button>
+</form>
+
+<div id="resultSection">
+
+    <!-- Đây là nơi thông tin thống kê sẽ được hiển thị -->
+</div>
+<script>
+    $(document).ready(function () {
+        // Chặn việc submit form
+        $("#dateForm").submit(function (event) {
+            event.preventDefault(); // Ngăn form submit theo cách thông thường
+
+            // Lấy dữ liệu từ form
+            var formData = $(this).serialize();
+
+            // Gửi AJAX request đến action mới
+            $.ajax({
+                type: "GET",
+                url: "/Admin/thongkenhap/ThongKeSanPhamNhap",
+                data: formData,
+                success: function (data) {
+                    // Kiểm tra xem data có phải là HTML không
+                    if ($(data).filter("html").length) {
+                        // Nếu là HTML, cập nhật resultSection
+                        $("#resultSection").html(data);
+                    } else {
+                        // Nếu không phải là HTML, thực hiện chuyển hướng trang
+                        window.location.href = "/Admin/thongkenhap/ThongKeSanPhamNhap" + "?" + formData;
+                    }
+                },
+                error: function () {
+                    alert("Lỗi khi lấy dữ liệu");
+                }
+            });
+        });
+    });
+</script>
+
+
+

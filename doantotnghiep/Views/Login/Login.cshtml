@@ -1,0 +1,41 @@
+﻿@model WebApplication2.Models.Login
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h3>Đăng nhập</h3>
+<div class="span1">&nbsp;</div>
+<div class="span4">
+    <div class="well">
+        <h5>Bạn đã có tài khoản?</h5>
+        <form asp-action="Login" asp-controller="LoginController" method="post">
+            <div class="control-group">
+                <label class="control-label" for="inputTenDangnhap">Tên đăng nhập</label>
+                <div class="controls">
+                    <input asp-for="TenDangnhap" class="span3" type="text" placeholder="Tên đăng nhập" />
+                    <span asp-validation-for="TenDangnhap" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputMatKhau">Mật khẩu</label>
+                <div class="controls">
+                    <input asp-for="MatKhau" class="span3" type="password" placeholder="Mật khẩu" />
+                    <span asp-validation-for="MatKhau" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="defaultBtn">Đăng nhập</button> <a href="#"></a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

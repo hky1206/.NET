@@ -1,0 +1,44 @@
+﻿@model List<TonKho>
+@using Newtonsoft.Json
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>TonKho Chart</h2>
+
+@{
+    var chartData = Model.Select(p => new { Name = p.MaSp, Quantity = p.SoLuongTon }).ToList();
+}
+<div>
+    <canvas id="myChart" width="400" height="200"></canvas>
+</div>
+
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.10.2/Chart.min.js"></script>
+    <script>
+        var chartData = @Html.Raw(JsonConvert.SerializeObject(chartData));
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chartData.map(data => data.Name),
+                datasets: [{
+                    label: 'So Luong',
+                    data: chartData.map(data => data.Quantity),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}

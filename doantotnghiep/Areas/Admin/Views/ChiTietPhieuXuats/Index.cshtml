@@ -1,0 +1,70 @@
+﻿@model IEnumerable<WebApplication2.Models.ChiTietPhieuXuat>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Soluong)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DonGia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThanhTien)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThueXuat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdPhieuxuatNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaSpNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Soluong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DonGia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThanhTien)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThueXuat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdPhieuxuatNavigation.IdPhieuxuat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaSpNavigation.MaSp)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdChitietphieuxuat">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdChitietphieuxuat">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdChitietphieuxuat">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts {
+    <!-- Các đoạn mã script cụ thể cho trang Index -->
+    <script src="~/js/index-script.js"></script>
+}

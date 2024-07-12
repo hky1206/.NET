@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WebApplication2.Models.TonKho>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Danh sách số lượng tồn</h1>
+
+@* <p>
+    <a asp-action="Create">Create New</a>
+</p> *@
+<table class="table">
+    <thead class="text-center">
+        <tr>
+            <th>
+Số lượng còn lại            </th>
+            <th>
+Giá hợp lý            </th>
+            <th>
+Tên sản phẩm            </th>
+           @*  <th>
+                @Html.DisplayNameFor(model => model.IdChitietphieunhapNavigation)
+            </th> *@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLuongTon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GiaNhap)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaSpNavigation.TenSp)
+                </td>
+@*             <td>
+                @Html.DisplayFor(modelItem => item.IdChitietphieunhapNavigation.IdChitietphieunhap)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdTonkho">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdTonkho">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdTonkho">Delete</a>
+            </td> *@
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,92 @@
+﻿@model IEnumerable<WebApplication2.Models.SanPham>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/lib/datatables/datatables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/lib/datatables/datatables.bootstrap4.css" rel="stylesheet" />
+<h1>Danh sách phụ tùng xe</h1>
+
+<p>
+    <a asp-action="Create" style="font-size: 200%; width:200%" class="bg-gradient-success text-white">Thêm sản phẩm</a>
+</p>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">THÔNG TIN CHI TIẾT</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead class="">
+        <tr>
+                        <th class="text-center">
+                Tên sản phâm
+            </th>
+                        <th class="text-center">Hình ảnh</th>
+                        <th class="text-center">
+                Danh mục
+            </th>
+                        <th class="text-center">
+                Đơn vị tính
+            </th>
+                        <th class="text-center">
+                Hãng sản xuất
+            </th>
+                        <th class="text-center">
+                Phiên bản
+            </th>
+                        <th class="text-center">
+                            Bảo hành
+            </th>
+                        </th>
+                        <th class="text-center">
+                            Giá niêm yết
+                        </th>
+        </tr>
+    </thead>
+    <tbody>
+
+@foreach (var item in Model) {
+        <tr>
+                            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.TenSp)
+            </td >
+                            <td class="text-center" style="padding: 10px;">
+                                <img src="@Url.Content("~/images/" + item.Imageurl)" alt="@item.TenSp" style="max-width: 200px; max-height: 200px;" />
+                            </td>
+                            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.IdDanhmucNavigation.Tendanhmuc)
+            </td>
+                            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.IdDvtNavigation.TenDvt)
+            </td>
+                            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.IdHangsxNavigation.Tenhangsanxuat)
+            </td>
+                            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.IdPhienbanNavigation.TenPhienBan)
+            </td>
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item.IdThoigianbaohanhNavigation.ThoiGian)
+                            </td>
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item.Gia)
+                            </td>
+                            <td class="text-center ">
+                                <a asp-action="Edit" asp-route-id="@item.MaSp" style=" width: 150%; box-sizing: border-box; text-align: center; ">Sửa</a> |
+                                <a asp-action="Details" asp-route-id="@item.MaSp" style=" width: 150%; box-sizing: border-box; text-align: center;">Chi tiết</a> |
+                                <a asp-action="Delete" asp-route-id="@item.MaSp" style=" width: 150%; box-sizing: border-box; text-align: center;">Xoá</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+            </div>
+        </div>
+    </div>
+@section Scripts {
+    <!-- Các đoạn mã script cụ thể cho trang Index -->
+    <script src="~/js/index-script.js"></script>
+}

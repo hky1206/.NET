@@ -1,0 +1,74 @@
+﻿@model List<WebApplication2.Models.SanPham>
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h4>Thêm sản phẩm mới </h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <div class="form-group">
+                    <label asp-for="@Model[i].TenSp" class="control-label">Tên sản phẩm</label>
+                    <input asp-for="@Model[i].TenSp" class="form-control" />
+                    <span asp-validation-for="@Model[i].TenSp" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model[i].IdDvt" class="control-label">Đơn vị tính</label>
+                    <select asp-for="@Model[i].IdDvt" class="form-control" asp-items="ViewBag.IdDvt"></select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model[i].IdDanhmuc" class="control-label">Danh mục</label>
+                    <select asp-for="@Model[i].IdDanhmuc" class="form-control" asp-items="ViewBag.IdDanhmuc"></select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model[i].IdHangsx" class="control-label">Hãng sản xuất</label>
+                    <select asp-for="@Model[i].IdHangsx" class="form-control" asp-items="ViewBag.IdHangsx"></select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model[i].IdPhienban" class="control-label">Phiên bản</label>
+                    <select asp-for="@Model[i].IdPhienban" class="form-control" asp-items="ViewBag.IdPhienban"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model[i].IdThoigianbaohanh" class="control-label">Bảo hành</label>
+                    <select asp-for="@Model[i].IdThoigianbaohanh" class="form-control" asp-items="ViewBag.IdTgbh"></select>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Ảnh sản phẩm</label>
+                    <input type="file" name="files" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model[i].Gia" class="control-label">Giá niêm yết</label>
+                    <input asp-for="@Model[i].Gia" class="form-control" />
+                    <span asp-validation-for="@Model[i].Gia" class="text-danger"></span>
+                </div>
+            }
+
+            <div class="form-group">
+                <input type="submit" value="Thêm mới" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Quay lại</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

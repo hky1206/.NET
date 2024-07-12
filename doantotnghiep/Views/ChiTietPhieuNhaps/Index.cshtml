@@ -1,0 +1,70 @@
+﻿@model IEnumerable<WebApplication2.Models.ChiTietPhieuNhap>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.SoLuong)
+            </th >
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.DonGia)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.ThanhTien)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.ThueNhap)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.IdPhieunhapNavigation)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.MaSpNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td class="text-center">
+                @Html.DisplayFor(modelItem => item.SoLuong)
+            </td>
+                <td class="text-center">
+                @Html.DisplayFor(modelItem => item.DonGia)
+            </td>
+                <td class="text-center">
+                @Html.DisplayFor(modelItem => item.ThanhTien)
+            </td>
+                <td class="text-center">
+                @Html.DisplayFor(modelItem => item.ThueNhap)
+            </td>
+                <td class="text-center">
+                @Html.DisplayFor(modelItem => item.IdPhieunhapNavigation.IdPhieunhap)
+            </td>
+                <td class="text-center">
+                @Html.DisplayFor(modelItem => item.MaSpNavigation.MaSp)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdChitietphieunhap">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdChitietphieunhap">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdChitietphieunhap">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts {
+    <!-- Các đoạn mã script cụ thể cho trang Index -->
+    <script src="~/js/index-script.js"></script>
+}

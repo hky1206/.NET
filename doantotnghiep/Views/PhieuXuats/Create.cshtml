@@ -1,0 +1,149 @@
+﻿@* @model WebApplication2.Models.PhieuXuat 
+ *@
+ @model WebApplication2.Models.DaTa
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Tạo phiếu xuất</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.PhieuXuat.SoPhieuXuat" class="control-label">Số Phiếu Xuất</label>
+                <input asp-for="@Model.PhieuXuat.SoPhieuXuat" class="form-control" id="phieuxuat" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.PhieuXuat.IdNguoidung" class="control-label"> Tên Nhân Viên</label>
+                <select asp-for="@Model.PhieuXuat.IdNguoidung" class="form-control" asp-items="ViewBag.IdNguoidung"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.PhieuXuat.NgayXuat" class="control-label"> Ngày Xuất</label>
+                <input asp-for="@Model.PhieuXuat.NgayXuat" class="form-control" />
+                <span asp-validation-for="@Model.PhieuXuat.NgayXuat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.PhieuXuat.MaKh" class="control-label">Tên Khách hàng</label>
+                <select asp-for="@Model.PhieuXuat.MaKh" class="form-control" asp-items="ViewBag.MaKh"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.PhieuXuat.IdKhuyenmai" class="control-label">Khuyễn mãi</label>
+                <select asp-for="@Model.PhieuXuat.IdKhuyenmai" class="form-control" asp-items="ViewBag.IdKhuyenmai"></select>
+            </div>
+          
+            <h4>Chi Tiết phiếu xuất</h4>
+            <table class="table table-borderred" id="chitiettable">
+                <thead>
+                    <tr>
+                        <th>Tên sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Đơn giá</th>
+                        <th>Thành tiền</th>
+                        <th>Thuế xuất</th>
+                        <th>
+                            <button id="addbtnMember" type="button" class="btn btn-sm btn-secondary visible"
+                                    onclick="AddItem(this)">
+                                Add
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.chiTietPhieuXuats.Count; i++)
+                            {
+                    <tr>
+
+                            <td>
+                                <select asp-for="@Model.chiTietPhieuXuats[i].MaSp" asp-items="@(ViewBag.SanPhamList as List<SelectListItem>)"></select>
+                            </td>
+
+                        <td>
+                                <input asp-for="@Model.chiTietPhieuXuats[i].Soluong" onchange="updateTotal()" />
+                        </td>
+                        <td>
+                                <input asp-for="@Model.chiTietPhieuXuats[i].DonGia" onchange="updateTotal()" />
+                        </td>
+                        <td><input asp-for="@Model.chiTietPhieuXuats[i].ThanhTien" />
+                        </td>
+                        <td><input asp-for="@Model.chiTietPhieuXuats[i].ThueXuat" />
+                        </td>
+                        <td>
+
+                            <button id="btnremove" type="button" class="btn btn-sm btn-danger"
+                                    onclick="DeleteItem(this)">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                    }
+            </tbody>
+            </table>
+            <div class="form-group">
+                <label asp-for="@Model.PhieuXuat.TongTien" class="control-label"> Tổng tiền</label>
+                <input asp-for="@Model.PhieuXuat.TongTien" class="form-control" />
+                <span asp-validation-for="@Model.PhieuXuat.TongTien" class="text-danger"></span>
+            </div>
+            <input type="hidden" id="hdnLastIndex" value="0" />
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="javascript:window.location.reload()">CANCEL</button>
+                <button type="submit" class="btn btn-primary">SAVE</button>
+            </div>
+        </form>
+    </div>
+</div>
+    
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    function DeleteItem(btn) {
+
+        $(btn).closest('tr').remove();
+        document.getElementById('hdnLastIndex').value = document.getElementById('hdnLastIndex').value - 1;
+
+    }
+    function AddItem() {
+        var table = document.getElementById('chitiettable');
+        var lastRow = table.rows[table.rows.length - 1];
+        var newRow = table.insertRow(table.rows.length);
+
+        for (var i = 0; i < lastRow.cells.length; i++) {
+            var newCell = newRow.insertCell(i);
+            newCell.innerHTML = lastRow.cells[i].innerHTML.replace(/_(\d+)_/g, function (match, p1) {
+                return '_' + (parseInt(p1) + 1) + '_';
+            });
+            newCell.innerHTML = newCell.innerHTML.replace(/\[(\d+)\]/g, function (match, p1) {
+                return '[' + (parseInt(p1) + 1) + ']';
+            });
+            newCell.innerHTML = newCell.innerHTML.replace(/-(\d+)/g, function (match, p1) {
+                return '-' + (parseInt(p1) + 1);
+            });
+        }
+
+        document.getElementById('hdnLastIndex').value = parseInt(document.getElementById('hdnLastIndex').value) + 1;
+    }
+    function updateTotal() {
+        var table = document.getElementById('chitiettable');
+        var rows = table.getElementsByTagName('tr');
+
+        for (var i = 1; i < rows.length; i++) {
+            var cells = rows[i].getElementsByTagName('td');
+            var soluong = cells[1].getElementsByTagName('input')[0].value;
+            var dongia = cells[2].getElementsByTagName('input')[0].value;
+            var thanhtien = soluong * dongia;
+
+            cells[3].getElementsByTagName('input')[0].value = thanhtien;
+        }
+    }
+    
+        
+       
+</script>

@@ -1,0 +1,84 @@
+﻿@model WebApplication2.Models.PhieuXuat
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+    <h1> Thông tin phiếu xuất </h1>
+
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Số Phiếu Xuất :
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.SoPhieuXuat)
+            </dd>
+            <dt class="col-sm-2">
+                Ngày Xuất :
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.NgayXuat)
+            </dd>
+            <dt class="col-sm-2">
+                Mã Khuyễn Mãi :
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.IdKhuyenmaiNavigation.TenKhuyenMai)
+            </dd>
+            <dt class="col-sm-2">
+                Tên Khách Hàng :
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.MaKhNavigation.TenKh)
+            </dd>
+            <dt class="col-sm-2">
+                Tên Nhân Viên :
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.IdNguoidungNavigation.Hoten)
+            </dd>
+            <dt class="col-sm-2">
+                Tổng tiền :
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.TongTien)
+            </dd>
+        </dl>
+
+        <h4>Chi Tiết Phiếu Xuất</h4>
+        <table style="border-collapse: collapse; width: 50%; margin: 20px;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #dddddd; background-color: #f2f2f2; text-align: left; padding: 8px;">Tên Sản Phẩm</th>
+                    <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Số Lượng</th>
+                    <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Đơn Giá</th>
+                    <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Thành Tiền</th>
+                    <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Thuế Xuất</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var chiTiet in ViewData["ChiTietPhieuXuat"] as List<ChiTietPhieuXuat>)
+                {
+                    <tr>
+                        <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">
+                            @chiTiet.MaSpNavigation.TenSp
+                        </td>
+                        <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">@chiTiet.Soluong</td>
+                        <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">@chiTiet.DonGia</td>
+                        <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">@chiTiet.ThanhTien</td>
+                        <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">@chiTiet.ThueXuat</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.IdPhieuxuat">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

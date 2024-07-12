@@ -1,0 +1,79 @@
+﻿@model IEnumerable<WebApplication2.Models.PhieuXuat>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>DANH SÁCH XUẤT HÀNG</h1>
+
+<p>
+    <a asp-action="Create">Tạo Phiếu xuất</a>
+</p>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Danh sách phiếu xuất</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+                        <th class="text-center">
+                            Số phiếu xuất
+                        </th>
+                        <th class="text-center">
+                            Ngày xuất
+                        </th>
+                        <th class="text-center">
+                            Khuyên mãi
+                        </th>
+                        <th class="text-center">
+                            Khách hàng
+                        </th>
+                        <th class="text-center">
+                            Nhân viên
+                        </th>
+                        <th class="text-center">
+                            Tổng tiền
+                        </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item.SoPhieuXuat)
+                            </td>
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item.NgayXuat)
+                            </td>
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item.IdKhuyenmaiNavigation.TenKhuyenMai)
+                            </td>
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item.MaKhNavigation.TenKh)
+                            </td>
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item. IdNguoidungNavigation.Hoten)
+                            </td>
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item.TongTien)
+                            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdPhieuxuat">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdPhieuxuat">Chi tiết</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdPhieuxuat">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <!-- Các đoạn mã script cụ thể cho trang Index -->
+    <script src="~/js/index-script.js"></script>
+}

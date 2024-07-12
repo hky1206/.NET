@@ -1,0 +1,52 @@
+﻿@model List<ChiTietPhieuXuat>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Thống Kê Sản Phẩm Xuất :</h2>
+<p>Từ ngày: @Model.FirstOrDefault()?.IdPhieuxuatNavigation.NgayXuat.Date.ToShortDateString()</p>
+<p>Đến ngày: @Model.LastOrDefault()?.IdPhieuxuatNavigation.NgayXuat.Date.ToShortDateString()</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Ngày Xuất</th>
+            <th>Sản Phẩm</th>
+            <th>Số Lượng</th>
+            <th>Đơn Giá</th>
+            <th>Thành Tiền</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IdPhieuxuatNavigation.NgayXuat</td>
+                <td>@item.MaSpNavigation.TenSp</td>
+                <td>@item.Soluong</td>
+                <td>@item.DonGia</td>
+                <td>@item.ThanhTien</td>
+            </tr>
+        }
+
+        @if (Model.Any())
+        {
+            <tr>
+                <td colspan="3"><strong>Tổng cộng</strong></td>
+                <td>@Model.Sum(item => item.ThanhTien) đồng</td>
+            </tr>
+            <td>Tổng số lượng xuất:</td>
+            @foreach (var productGroup in Model.GroupBy(item => item.MaSpNavigation.TenSp))
+            {
+                <tr>
+                    <td><strong>@productGroup.Key</strong></td>
+                    <td>@productGroup.Sum(item => item.Soluong)</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

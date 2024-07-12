@@ -1,0 +1,33 @@
+﻿@model WebApplication2.Models.ViewModel.CheckoutViewmodel
+@{
+    ViewData["Title"] = "CheckoutCash";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h1>CheckoutCash</h1>
+
+<h2>Checkout - Pay with Cash</h2>
+
+<form asp-action="CheckoutCash" method="post">
+    <div class="form-group">
+        <label for="FullName">Full Name:</label>
+        <input type="text" id="FullName" name="FullName" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="Email">Email:</label>
+        <input type="email" id="Email" name="Email" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="PhoneNumber">Phone Number:</label>
+        <input type="text" id="PhoneNumber" name="PhoneNumber" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="Address">Address:</label>
+        <textarea id="Address" name="Address" class="form-control" required></textarea>
+    </div>
+    @* <div class="form-group">
+        <label for="TotalAmount">Total Amount:</label>
+        <input type="text" id="TotalAmount" name="TotalAmount" class="form-control" value="@Model.TotalAmount" readonly />
+    </div> *@
+    <button type="submit" class="btn btn-primary">Place Order</button>
+</form>

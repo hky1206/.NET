@@ -1,0 +1,65 @@
+﻿@model IEnumerable<WebApplication2.Models.PhieuNhap>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>DANH SÁCH NHẬP HÀNG</h1>
+
+<p>
+    <a asp-action="Create">Tạo phiếu nhập hàng</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Mã phiếu
+            </th>
+            <th>
+Ngày nhập            </th>
+            <th>
+Số phiếu nhập            </th>
+            <th>
+Nhà cung cấp            </th>
+            <th>
+Tên nhân viên            </th>
+            <th>
+                Tổng tiền
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaPN)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayNhap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoPhieuNhap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaNccNavigation.TenNcc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdNguoidungNavigation.Hoten)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TongTien)
+                </td>
+            <td>
+                @* <a asp-action="Edit" asp-route-id="@item.IdPhieunhaps">Edit</a> | *@
+                <a asp-action="Details" asp-route-id="@item.IdPhieunhap">Chi tiết</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdPhieunhap">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts {
+    <!-- Các đoạn mã script cụ thể cho trang Index -->
+    <script src="~/js/index-script.js"></script>
+}

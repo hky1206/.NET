@@ -1,0 +1,194 @@
+﻿@model WebApplication2.Models.DaTa2
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Tạo phiếu nhập</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="@Model.PhieuNhap.MaPN" class="control-label">Mã Phiếu</label>
+                        <input asp-for="@Model.PhieuNhap.MaPN" class="form-control" />
+                        <span asp-validation-for="@Model.PhieuNhap.MaPN" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="@Model.PhieuNhap.IdNguoidung" class="control-label">Tên nhân viên</label>
+                        <select asp-for="@Model.PhieuNhap.IdNguoidung" class="form-control" asp-items="ViewBag.MaNv"></select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="@Model.PhieuNhap.MaNcc" class="control-label">Nhà cung cấp</label>
+                        <select asp-for="@Model.PhieuNhap.MaNcc" class="form-control" asp-items="ViewBag.MaNcc"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="@Model.PhieuNhap.NgayNhap" class="control-label">Ngày nhập</label>
+                        <input asp-for="@Model.PhieuNhap.NgayNhap" class="form-control" />
+                        <span asp-validation-for="@Model.PhieuNhap.NgayNhap" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="@Model.PhieuNhap.SoPhieuNhap" class="control-label">Số phiếu nhập</label>
+                        <input asp-for="@Model.PhieuNhap.SoPhieuNhap" class="form-control" />
+                        <span asp-validation-for="@Model.PhieuNhap.SoPhieuNhap" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+           
+          
+          
+           
+            <table class="table-bordered" id="chitiettable1">
+                <thead>
+                    <tr>
+                        <th>
+                            Tên sản phẩm
+                        </th>
+                        <th>
+                            Số lượng
+                        </th>
+                        <th>
+                            Đơn giá
+                        </th>
+                        <th>
+                            Thành tiền
+                        </th>
+                        <th>
+                            Thuế nhập
+                        </th>
+                        <th>
+                            <button id="addbtnMember" type="button" class="btn btn-sm btn-secondary visible"
+                                    onclick="AddItem(this)">
+                                Thêm
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.chiTietPhieuNhaps.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                <select asp-for="@Model.chiTietPhieuNhaps[i].MaSp" asp-items="@(ViewBag.SanPhamList as List<SelectListItem>)"></select>
+                            </td>
+                            <td>
+                                <input asp-for="@Model.chiTietPhieuNhaps[i].SoLuong" onchange="updateTotal()" />
+                            </td>
+                            <td>
+                                <input asp-for="@Model.chiTietPhieuNhaps[i].DonGia" onchange="updateTotal()" />
+                            </td>
+                            <td>
+                                <input asp-for="@Model.chiTietPhieuNhaps[i].ThanhTien" />
+                            </td>
+                            <td>
+                                <input asp-for="@Model.chiTietPhieuNhaps[i].ThueNhap" />
+                            </td>
+                            <td>
+
+                                <button id="btnremove" type="button" class="btn btn-sm btn-danger"
+                                        onclick="DeleteItem(this)">
+                                    Xoá 
+                                </button>
+                            </td>
+                         
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+            <div class="form-group">
+                <label asp-for="@Model.PhieuNhap.TongTien" class="control-label">Tổng tiền</label>
+                <input asp-for="@Model.PhieuNhap.TongTien" class="form-control" />
+                <span asp-validation-for="@Model.PhieuNhap.TongTien" class="text-danger"></span>
+            </div>
+            <input type="hidden" id="hdnLastIndex" value="0" />
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="javascript:window.location.reload()">XOÁ TOÀN BỘ</button>
+                <button type="submit" class="btn btn-primary">LƯU</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Quay lại</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    function DeleteItem(btn) {
+
+        $(btn).closest('tr').remove();
+        document.getElementById('hdnLastIndex').value = document.getElementById('hdnLastIndex').value - 1;
+
+    }
+    function AddItem() {
+        var table = document.getElementById('chitiettable1');
+        var lastRow = table.rows[table.rows.length - 1];
+        var newRow = table.insertRow(table.rows.length);
+
+        for (var i = 0; i < lastRow.cells.length; i++) {
+            var newCell = newRow.insertCell(i);
+            newCell.innerHTML = lastRow.cells[i].innerHTML.replace(/_(\d+)_/g, function (match, p1) {
+                return '_' + (parseInt(p1) + 1) + '_';
+            });
+            newCell.innerHTML = newCell.innerHTML.replace(/\[(\d+)\]/g, function (match, p1) {
+                return '[' + (parseInt(p1) + 1) + ']';
+            });
+            newCell.innerHTML = newCell.innerHTML.replace(/-(\d+)/g, function (match, p1) {
+                return '-' + (parseInt(p1) + 1);
+            });
+        }
+
+        document.getElementById('hdnLastIndex').value = parseInt(document.getElementById('hdnLastIndex').value) + 1;
+    }
+    function updateTotal() {
+    var table = document.getElementById('chitiettable1');
+    var rows = table.getElementsByTagName('tr');
+
+    for (var i = 1; i < rows.length; i++) {
+        var cells = rows[i].getElementsByTagName('td');
+        var soluong = cells[1].getElementsByTagName('input')[0].value;
+        var dongia = cells[2].getElementsByTagName('input')[0].value;
+        var thanhtien = soluong * dongia;
+
+        cells[3].getElementsByTagName('input')[0].value = thanhtien;
+    }
+}
+
+function updateTotal() {
+    var table = document.getElementById('chitiettable1');
+    var rows = table.getElementsByTagName('tr');
+    var total = 0;
+
+    for (var i = 1; i < rows.length; i++) {
+        var cells = rows[i].getElementsByTagName('td');
+        var soluong = cells[1].getElementsByTagName('input')[0].value;
+        var dongia = cells[2].getElementsByTagName('input')[0].value;
+        var thanhtien = soluong * dongia;
+
+        cells[3].getElementsByTagName('input')[0].value = thanhtien;
+        total += thanhtien;
+    }
+
+    document.getElementById('PhieuNhap_TongTien').value = total;
+}
+
+</script>
